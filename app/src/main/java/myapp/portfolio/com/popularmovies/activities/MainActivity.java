@@ -1,9 +1,12 @@
-package myapp.portfolio.com.popularmovies;
+package myapp.portfolio.com.popularmovies.activities;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import myapp.portfolio.com.popularmovies.R;
+import myapp.portfolio.com.popularmovies.tools.Constants;
 
 
 public class MainActivity extends ActionBarActivity {
