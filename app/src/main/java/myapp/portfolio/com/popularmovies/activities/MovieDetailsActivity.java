@@ -1,6 +1,7 @@
 package myapp.portfolio.com.popularmovies.activities;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -30,8 +31,12 @@ public class MovieDetailsActivity extends AppCompatActivity {
             movieDetails = intent.getParcelableExtra("movie_details");
         }
 
-        ImageView ivBackdropPath = (ImageView) findViewById(R.id.ivBackdrop);
-        Picasso.with(this).load(movieDetails.getBackdropPathInSize(Constants.movieDB_w342)).into(ivBackdropPath);
+        int orientation = getResources().getConfiguration().orientation;
+
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {//this view doesn't exist in the landscape layout
+            ImageView ivBackdropPath = (ImageView) findViewById(R.id.ivBackdrop);
+            Picasso.with(this).load(movieDetails.getBackdropPathInSize(Constants.movieDB_w342)).into(ivBackdropPath);
+        }
 
         TextView tvOriginalTitle = (TextView) findViewById(R.id.tvOriginalTitle);
         tvOriginalTitle.setText(movieDetails.getOriginal_title());

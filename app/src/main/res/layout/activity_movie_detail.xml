@@ -47,7 +47,6 @@
                     android:layout_alignParentEnd="true"
                     android:layout_below="@+id/ivBackdrop"
                     android:layout_marginTop="2dp"
-                    android:layout_marginBottom="2dp"
                     android:background="@color/movie_title_background" />
             </RelativeLayout>
 
@@ -62,7 +61,8 @@
                     android:layout_alignParentStart="false"
                     android:paddingLeft="2dp"
                     android:contentDescription="@string/contdesc_thumbnail_poster"
-                    android:paddingRight="2dp" />
+                    android:paddingRight="2dp"
+                    android:layout_marginTop="2dp" />
 
                 <TextView
                     android:layout_width="fill_parent"
