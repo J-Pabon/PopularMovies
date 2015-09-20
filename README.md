@@ -1,7 +1,7 @@
 # PopularMovies
 Project 1 -Udacity Android Nanodegree
 
-The themoviedb.org API key must be located in a class like the following:
+The themoviedb.org API key must be located in a class, inside the tools folder, like the following:
 
 package myapp.portfolio.com.popularmovies.tools;
 
