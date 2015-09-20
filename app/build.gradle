@@ -17,16 +17,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/drawable/star_png1590.9'] } }
 }
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile group: 'info.movito', name: 'themoviedbapi', version:'1.1'
 }

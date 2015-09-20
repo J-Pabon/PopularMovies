@@ -1,0 +1,147 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="myapp.portfolio.com.popularmovies.activities.MovieDetailsActivity"
+    android:background="@color/background"
+    android:nestedScrollingEnabled="true">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="fill_parent"
+                    android:layout_height="@dimen/header_poster_details"
+                    android:id="@+id/ivBackdrop"
+                    android:contentDescription="@string/contdesc_backdrop_path"
+                    android:adjustViewBounds="true"
+                    android:cropToPadding="false"
+                    android:scaleType="centerCrop" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvOriginalTitle"
+                    android:gravity="center_horizontal"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/size_movie_title"
+                    android:textAlignment="gravity"
+                    android:ellipsize="marquee"
+                    android:singleLine="true"
+                    android:paddingEnd="4dp"
+                    android:paddingStart="4dp"
+                    android:maxLines="1"
+                    android:lines="1"
+                    android:textColor="@color/text_color"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/ivBackdrop"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:background="@color/movie_title_background" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ivPoster"
+                    android:layout_alignParentStart="false"
+                    android:paddingLeft="2dp"
+                    android:contentDescription="@string/contdesc_thumbnail_poster"
+                    android:paddingRight="2dp" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvTitleReleaseDate"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_toRightOf="@+id/ivPoster"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/text_color"
+                    android:text="@string/title_release_date"
+                    android:layout_marginTop="20dp" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvReleaseDate"
+                    android:layout_alignParentTop="false"
+                    android:layout_alignParentEnd="false"
+                    android:layout_toRightOf="@+id/ivPoster"
+                    android:textColor="@color/text_color"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:layout_below="@+id/tvTitleReleaseDate"
+                    android:textSize="@dimen/size_movie_details"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvTitleUserRating"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:layout_toRightOf="@+id/ivPoster"
+                    android:layout_alignParentTop="false"
+                    android:textColor="@color/text_color"
+                    android:text="@string/title_user_rating"
+                    android:layout_below="@+id/tvReleaseDate"
+                    android:layout_marginTop="10dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ivUserRating"
+                    android:layout_below="@+id/tvTitleUserRating"
+                    android:src="@drawable/abc_btn_rating_star_on_mtrl_alpha"
+                    android:layout_alignTop="@+id/tvUserRating"
+                    android:layout_alignBottom="@+id/tvUserRating"
+                    android:layout_toRightOf="@+id/tvUserRating"
+                    android:contentDescription="@string/contdesc_star" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvUserRating"
+                    android:layout_below="@+id/tvTitleUserRating"
+                    android:layout_toRightOf="@+id/ivPoster"
+                    android:textColor="@color/text_color"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/size_rating"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="2dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvOverview"
+                android:textColor="@color/text_color"
+                android:textAlignment="gravity"
+                android:gravity="start"
+                android:paddingEnd="4dp"
+                android:paddingStart="4dp" />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

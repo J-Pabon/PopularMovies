@@ -1,6 +1,13 @@
 <resources>
-    <string name="app_name">PopularMovies</string>
+    <string name="app_name">Popular Movies</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_sort_popularity">Sort by popularity</string>
+    <string name="action_sort_vote_average">Sort by rate</string>
+    <string name="title_activity_movie_detail">Movie details</string>
+    <string name="contdesc_backdrop_path">backdrop path</string>
+    <string name="contdesc_thumbnail_poster">movie poster image</string>
+    <string name="title_release_date">Release date</string>
+    <string name="title_user_rating">User rating</string>
+    <string name="contdesc_star">star</string>
+    <string name="contdesc_movie_poster">movie poster</string>
 </resources>
