@@ -1,7 +1,5 @@
 package myapp.portfolio.com.popularmovies.activities;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import myapp.portfolio.com.popularmovies.R;
 import myapp.portfolio.com.popularmovies.adapters.PosterAdapter;
@@ -31,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     public static int height;
 
     GridView gvPopMovies;
+
+    PosterAdapter adapterPosters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState != null) {
             ArrayList<Movie> data = (ArrayList<Movie>) savedInstanceState.getSerializable("info_movies");
-            PosterAdapter adapter = new PosterAdapter(getApplicationContext(), data);
+
+            PosterAdapter adapter = new PosterAdapter(getApplicationContext());
+            adapter.setData(data);
 
             gvPopMovies.setAdapter(adapter);
             gvPopMovies.setNumColumns(HelperUI.FormatMainGrid(data.size(), orientation));
@@ -75,7 +78,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void ExecuteQuery (String type, String filter, String sorting, int orientation) {
-        new HelperTMDB().execute(type, filter, sorting, gvPopMovies, this, orientation);
+        HelperTMDB helper = new HelperTMDB();
+        ArrayList<Movie> data = new ArrayList<Movie> ();
+
+        try {
+            data = (ArrayList<Movie>) helper.execute(new Object[] { type, filter, sorting, gvPopMovies, this, orientation }).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        adapterPosters = new PosterAdapter(getApplicationContext());
+        adapterPosters.setData(data);
+
+        gvPopMovies.setAdapter(adapterPosters);
     }
 
     @Override
@@ -89,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onSaveInstanceState (Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        ArrayList<Movie> adapter = (ArrayList<Movie>)((PosterAdapter)gvPopMovies.getAdapter()).data;
+        ArrayList<Movie> adapter = (ArrayList<Movie>) ((PosterAdapter) gvPopMovies.getAdapter()).getData();
 
         outState.putSerializable("info_movies", adapter);
     }

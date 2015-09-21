@@ -20,6 +20,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
 import myapp.portfolio.com.popularmovies.adapters.PosterAdapter;
 import myapp.portfolio.com.popularmovies.entities.Movie;
@@ -59,7 +60,6 @@ public class HelperTMDB extends AsyncTask {
 
     @Override
     protected void onPostExecute(Object result) {
-        gvPopMovies.setAdapter(new PosterAdapter(context, (ArrayList<Movie>)result));
     };
 
     public ArrayList<Movie> searchTMDB(String type_query, String filter, String sort_query, int orientation) throws IOException, ParseException {

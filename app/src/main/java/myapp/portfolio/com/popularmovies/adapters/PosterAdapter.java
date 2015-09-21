@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import myapp.portfolio.com.popularmovies.R;
-import myapp.portfolio.com.popularmovies.activities.MainActivity;
 import myapp.portfolio.com.popularmovies.entities.Movie;
 
 /**
@@ -26,28 +24,34 @@ import myapp.portfolio.com.popularmovies.entities.Movie;
  */
 public class PosterAdapter extends BaseAdapter {
     private Context context;
-    public List<Movie> data;
+    private List<Movie> data;
 
-    public PosterAdapter(Context c, ArrayList<Movie> d) {
+    public List<Movie> getData() {
+        return data;
+    }
+
+    public void setData(List<Movie> data) {
+        this.data = data;
+    }
+
+    public PosterAdapter(Context c) {
         context = c;
-
-        data = new ArrayList<Movie>();
-        data = d;
+        setData(new ArrayList<Movie>());
     }
 
     @Override
     public int getCount() {
-        return data.size();
+        return getData().size();
     }
 
     @Override
     public Object getItem(int position) {
-        return data.get(position);
+        return getData().get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return data.get(position).getId();
+        return getData().get(position).getId();
     }
 
     @Override
@@ -61,10 +65,10 @@ public class PosterAdapter extends BaseAdapter {
         ivMainPoster.setAdjustViewBounds(true);
         ivMainPoster.setScaleType(ImageView.ScaleType.FIT_XY);
 
-        Picasso.with(context).load(data.get(position).getPoster_path()).into(ivMainPoster);
+        Picasso.with(context).load(getData().get(position).getPoster_path()).into(ivMainPoster);
 
         TextView tvTitle = (TextView) layout.findViewById(R.id.tvMainTitle);
-        tvTitle.setText(data.get(position).getTitle());
+        tvTitle.setText(getData().get(position).getTitle());
 
         return layout;
     }
