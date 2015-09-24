@@ -9,4 +9,5 @@
     <dimen name="size_movie_title">18sp</dimen>
     <dimen name="size_movie_details">18sp</dimen>
     <dimen name="size_rating">22sp</dimen>
+    <dimen name="size_error">16sp</dimen>
 </resources>

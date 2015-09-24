@@ -3,7 +3,11 @@ package myapp.portfolio.com.popularmovies.helpers;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,6 +26,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import myapp.portfolio.com.popularmovies.R;
 import myapp.portfolio.com.popularmovies.adapters.PosterAdapter;
 import myapp.portfolio.com.popularmovies.entities.Movie;
 import myapp.portfolio.com.popularmovies.tools.Constants;
@@ -35,6 +40,10 @@ import static myapp.portfolio.com.popularmovies.tools.TMDBKey.*;
  */
 public class HelperTMDB extends AsyncTask {
     GridView gvPopMovies;
+
+    TextView tvError;
+    Button btRetry;
+
     Context context;
 
     @Override
@@ -44,9 +53,13 @@ public class HelperTMDB extends AsyncTask {
         String sort_query = (String) params [2];
 
         gvPopMovies = (GridView) params [3];
-        context = (Context) params [4];
 
-        int orientation = (Integer) params [5];
+        tvError = (TextView) params [4];
+        btRetry = (Button) params [5];
+
+        context = (Context) params [6];
+
+        int orientation = (Integer) params [7];
 
         try {
             return searchTMDB(type_query, filter_query, sort_query, orientation);
@@ -60,6 +73,19 @@ public class HelperTMDB extends AsyncTask {
 
     @Override
     protected void onPostExecute(Object result) {
+        boolean ok = result != null;
+
+        if (ok) {
+            ((PosterAdapter) gvPopMovies.getAdapter()).setData((List<Movie>) result);
+            ((PosterAdapter) gvPopMovies.getAdapter()).notifyDataSetChanged();
+        } else {
+            tvError.setText(context.getResources().getString(R.string.error_fetch_data));
+        }
+
+        gvPopMovies.setVisibility(ok ? View.VISIBLE : View.GONE);
+
+        tvError.setVisibility(ok ? View.GONE : View.VISIBLE);
+        btRetry.setVisibility(ok ? View.GONE : View.VISIBLE);
     };
 
     public ArrayList<Movie> searchTMDB(String type_query, String filter, String sort_query, int orientation) throws IOException, ParseException {
@@ -84,6 +110,8 @@ public class HelperTMDB extends AsyncTask {
             stream = conn.getInputStream();
 
             return parseResult(StreamToString(stream), orientation);
+        } catch (Exception ex) {
+            return null;
         } finally {
             if (stream != null) {
                 stream.close();

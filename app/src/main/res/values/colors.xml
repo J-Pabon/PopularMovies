@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="background">#424242</color>
+    <color name="background_network_unavailable">#ffffff</color>
     <color name="movie_title_background">#212121</color>
     <color name="text_color">#ffffff</color>
+    <color name="text_color_error">#ffffff</color>
 </resources>

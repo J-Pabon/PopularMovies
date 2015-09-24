@@ -25,4 +25,27 @@
         android:paddingRight="1dp"
         android:paddingLeft="1dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/tvError"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="20dp"
+        android:textSize="@dimen/size_error"
+        android:textColor="@color/text_color_error"
+        android:visibility="gone"
+        android:textStyle="italic" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error_retry"
+        android:id="@+id/btRetry"
+        android:layout_below="@+id/tvError"
+        android:layout_centerHorizontal="true"
+        android:onClick="onRetry"
+        android:visibility="gone" />
+
 </RelativeLayout>

@@ -10,4 +10,7 @@
     <string name="title_user_rating">User rating</string>
     <string name="contdesc_star">star</string>
     <string name="contdesc_movie_poster">movie poster</string>
+    <string name="error_network_unavailable">Network unavailable</string>
+    <string name="error_fetch_data">Error trying to fetch data</string>
+    <string name="error_retry">Retry</string>
 </resources>

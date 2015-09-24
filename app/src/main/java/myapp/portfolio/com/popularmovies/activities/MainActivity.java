@@ -1,6 +1,9 @@
 package myapp.portfolio.com.popularmovies.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -8,7 +11,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -30,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
     public static int height;
 
     GridView gvPopMovies;
+
+    TextView tvError;
+    Button btRetry;
 
     PosterAdapter adapterPosters;
 
@@ -53,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         height -= height_bar;
 
         gvPopMovies = (GridView) findViewById(R.id.gvPopMovies);
+
+        gvPopMovies.setAdapter(new PosterAdapter(getApplicationContext()));
         gvPopMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Intent intent = new Intent(v.getContext(), MovieDetailsActivity.class);
@@ -62,35 +73,52 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        int orientation = getResources().getConfiguration().orientation;
+        tvError = (TextView) findViewById(R.id.tvError);
+        btRetry = (Button) findViewById(R.id.btRetry);
 
         if (savedInstanceState != null) {
             ArrayList<Movie> data = (ArrayList<Movie>) savedInstanceState.getSerializable("info_movies");
+            int orientation = getResources().getConfiguration().orientation;
 
-            PosterAdapter adapter = new PosterAdapter(getApplicationContext());
-            adapter.setData(data);
-
-            gvPopMovies.setAdapter(adapter);
+            ((PosterAdapter) gvPopMovies.getAdapter()).setData(data);
             gvPopMovies.setNumColumns(HelperUI.FormatMainGrid(data.size(), orientation));
         } else {
-            ExecuteQuery(movieDB_discovery, movieDB_filter_date_2015, movieDB_sort_popularity, orientation);
+            ExecuteQuery(movieDB_discovery, movieDB_filter_date_2015, movieDB_sort_popularity);
         }
     }
 
-    public void ExecuteQuery (String type, String filter, String sorting, int orientation) {
-        HelperTMDB helper = new HelperTMDB();
-        ArrayList<Movie> data = new ArrayList<Movie> ();
+    public void ExecuteQuery (String type, String filter, String sorting) {
+        boolean onLine = isOnline();
 
-        try {
-            data = (ArrayList<Movie>) helper.execute(new Object[] { type, filter, sorting, gvPopMovies, this, orientation }).get();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+        if (onLine) {
+            HelperTMDB helper = new HelperTMDB();
+            int orientation = getResources().getConfiguration().orientation;
+
+            helper.execute(new Object[]{type, filter, sorting, gvPopMovies, tvError, btRetry, this, orientation});
+        } else {
+            tvError.setText(getResources().getString(R.string.error_network_unavailable));
         }
 
-        adapterPosters = new PosterAdapter(getApplicationContext());
-        adapterPosters.setData(data);
+        gvPopMovies.setVisibility(onLine ? View.VISIBLE : View.GONE);
 
-        gvPopMovies.setAdapter(adapterPosters);
+        tvError.setVisibility(onLine ? View.GONE : View.VISIBLE);
+        btRetry.setVisibility(onLine ? View.GONE : View.VISIBLE);
+    }
+
+    /*
+    * From: https://developer.android.com/training/basics/network-ops/managing.html
+    * On: 2015-09-22
+    * */
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    public void onRetry (View view)
+    {
+        ExecuteQuery(movieDB_discovery, movieDB_filter_date_2015, movieDB_sort_popularity);
     }
 
     @Override
@@ -105,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
 
         ArrayList<Movie> adapter = (ArrayList<Movie>) ((PosterAdapter) gvPopMovies.getAdapter()).getData();
-
         outState.putSerializable("info_movies", adapter);
     }
 
@@ -118,14 +145,12 @@ public class MainActivity extends AppCompatActivity {
         int orientation = getResources().getConfiguration().orientation;
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_popularity) {
-            ExecuteQuery(movieDB_discovery, movieDB_filter_date_2015, movieDB_sort_popularity, orientation);
 
-            ((PosterAdapter) gvPopMovies.getAdapter()).notifyDataSetChanged();
+            ExecuteQuery(movieDB_discovery, movieDB_filter_date_2015, movieDB_sort_popularity);
             return true;
         } else if (id == R.id.action_vote) {
-            ExecuteQuery(movieDB_discovery, movieDB_filter_date_2015, movieDB_sort_rate, orientation);
 
-            ((PosterAdapter) gvPopMovies.getAdapter()).notifyDataSetChanged();
+            ExecuteQuery(movieDB_discovery, movieDB_filter_date_2015, movieDB_sort_rate);
             return true;
         }
 
